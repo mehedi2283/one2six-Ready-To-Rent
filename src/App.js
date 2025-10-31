@@ -29,10 +29,10 @@ export default function Survey() {
   });
 
   const styles = [
-    { label: "Modern Minimalist", image: "Ready to Rent.jpg" },
-    { label: "Boho Chic", image: "Ready to rent design 4.jpg" },
-    { label: "Vibrant Colorful", image: "Ready to rent design 3.jpg" },
-    { label: "Modern Farmhouse", image: "Ready to rent design 2.jpg" },
+    { label: "Modern Minimalist", image: "/Ready to Rent.jpg" },
+    { label: "Boho Chic", image: "/Ready to rent design 4.jpg" },
+    { label: "Vibrant Colorful", image: "/Ready to rent design 3.jpg" },
+    { label: "Modern Farmhouse", image: "/Ready to Rent Design 2.jpg" },
   ];
 
   const properties = [
