@@ -194,8 +194,8 @@ export default function Survey() {
             Two Six Design’s curated touch.
           </p>
           <div className="intro-images double">
-            <img src="/images/file1.png" alt="Airbnb 1" />
-            <img src="/images/file5.png" alt="Airbnb 2" />
+            <img src="/images/File1.png" alt="Airbnb 1" />
+            <img src="/images/File5.png" alt="Airbnb 2" />
           </div>
           <div className="intro-btn">
             <button className="btn btn-primary" onClick={next}>
