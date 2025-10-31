@@ -179,7 +179,6 @@ export default function Survey() {
   return (
     <div className="page">
       <div className="topbar">
-        <div className="brand">ONE TWO SIX</div>
         <div>Step {Math.min(step, 7)} / 7</div>
       </div>
 
@@ -195,8 +194,8 @@ export default function Survey() {
             Two Six Design’s curated touch.
           </p>
           <div className="intro-images double">
-            <img src="file 1.png" alt="Airbnb 1" />
-            <img src="file 5.png" alt="Airbnb 2" />
+            <img src="file1.png" alt="Airbnb 1" />
+            <img src="file5.png" alt="Airbnb 2" />
           </div>
           <div className="intro-btn">
             <button className="btn btn-primary" onClick={next}>
