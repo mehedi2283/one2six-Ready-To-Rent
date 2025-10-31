@@ -140,7 +140,7 @@ body {
 
 .style-option img {
   width: 100%;
-  height: 260px;
+  height: 240px;
   object-fit: cover;
   object-position: center;
   transition: transform 0.2s ease;
@@ -382,13 +382,14 @@ input[type="checkbox"]:checked::after {
 
   .contact-form label {
     display: flex;
+    width: 91%;
+
     flex-direction: column;
     font-size: 14px;
     text-align: left;
   }
 
   .contact-form input {
-    width: 290px;
     border: 1px solid #aaa;
     padding: 12px;
     margin-bottom: 14px;
