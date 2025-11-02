@@ -52,62 +52,49 @@ export default function Survey() {
   const bedrooms = BEDROOMS_BY_PROPERTY[formData.property] || 0;
   const has = (key) => formData.extras.includes(key);
 
-  // ---------------- CALCULATION ----------------
   const buildLineItems = () => {
     const items = [];
-
-    if (bedrooms > 0) {
+    if (bedrooms > 0)
       items.push({
         label: "Bedroom",
         qty: bedrooms,
         unit: PRICES.bedroom,
         total: bedrooms * PRICES.bedroom,
       });
-    }
-
-    if (has("Kitchen (Art & Accessories)")) {
+    if (has("Kitchen (Art & Accessories)"))
       items.push({
         label: "Kitchen (Art & Accessories)",
         qty: 1,
         unit: PRICES.kitchenArtAccessories,
         total: PRICES.kitchenArtAccessories,
       });
-    }
-
-    if (has("Kitchen Starter Kit")) {
+    if (has("Kitchen Starter Kit"))
       items.push({
         label: "Kitchen Starter Kit",
         qty: 1,
         unit: PRICES.kitchenStarterKit,
         total: PRICES.kitchenStarterKit,
       });
-    }
-
-    if (has("Bedding & Towels") && bedrooms > 0) {
+    if (has("Bedding & Towels") && bedrooms > 0)
       items.push({
         label: "Bedding & Towels",
         qty: bedrooms,
         unit: PRICES.beddingTowelsPerBedroom,
         total: bedrooms * PRICES.beddingTowelsPerBedroom,
       });
-    }
-
-    if (has("Bathroom Essentials") && bedrooms > 0) {
+    if (has("Bathroom Essentials") && bedrooms > 0)
       items.push({
         label: "Bathroom Essentials",
         qty: bedrooms,
         unit: PRICES.bathroomEssentialsPerBedroom,
         total: bedrooms * PRICES.bathroomEssentialsPerBedroom,
       });
-    }
-
     return items;
   };
 
   const total = () =>
     buildLineItems().reduce((sum, item) => sum + item.total, 0);
 
-  // ---------------- NAVIGATION ----------------
   const next = () => {
     if (step === 2 && !formData.style) {
       setError("Please select a style to continue.");
@@ -150,7 +137,6 @@ export default function Survey() {
     }));
   };
 
-  // ---------------- SUBMIT ----------------
   const submit = async (e) => {
     e.preventDefault();
     const payload = {
@@ -177,7 +163,6 @@ export default function Survey() {
     }
   };
 
-  // ---------------- UI ----------------
   return (
     <div className="page">
       <div className="topbar">
@@ -185,256 +170,198 @@ export default function Survey() {
       </div>
 
       <div className="step-wrapper">
-        {/* STEP 1 */}
-        {step === 1 && (
-          <section
-            className={`step-container active ${
-              direction === "forward" ? "slide-left" : "slide-right"
-            }`}
-          >
-            <h2 className="lux-title">
-              Ready to Rent — Let’s furnish your Airbnb in style.
-            </h2>
-            <p className="intro-desc">
-              Get your Airbnb guest-ready — fast, stylish, and turnkey. We’ll
-              help you furnish quickly and budget-consciously, while still
-              showing One Two Six Design’s curated touch.
-            </p>
-            <div className="intro-images double">
-              <img src="/images/File1.png" alt="Airbnb 1" />
-              <img src="/images/File5.png" alt="Airbnb 2" />
-            </div>
-            <div className="intro-btn">
-              <button className="btn btn-primary" onClick={next}>
-                Start My Quote
-              </button>
-            </div>
-          </section>
-        )}
+        <div
+          key={`${step}-${direction}`}
+          className={`step-anim ${
+            direction === "forward" ? "slide-in-right" : "slide-in-left"
+          }`}
+        >
+          {step === 1 && (
+            <section>
+              <h2 className="lux-title">
+                Ready to Rent — Let’s furnish your Airbnb in style.
+              </h2>
+              <p className="intro-desc">
+                Get your Airbnb guest-ready — fast, stylish, and turnkey. We’ll
+                help you furnish quickly and budget-consciously, while still
+                showing One Two Six Design’s curated touch.
+              </p>
+              <div className="intro-images double">
+                <img src="/images/File1.png" alt="Airbnb 1" />
+                <img src="/images/File5.png" alt="Airbnb 2" />
+              </div>
+              <div className="intro-btn">
+                <button className="fancy-btn" onClick={next}>
+                  Start My Quote
+                </button>
+              </div>
+            </section>
+          )}
 
-        {/* STEP 2 */}
-        {step === 2 && (
-          <section
-            className={`step-container active ${
-              direction === "forward" ? "slide-left" : "slide-right"
-            }`}
-          >
-            <h2 className="lux-h2">Choose Your Style</h2>
-            <div className="style-grid">
-              {styles.map((s) => (
-                <div
-                  key={s.label}
-                  className={`style-option ${
-                    formData.style === s.label ? "active" : ""
-                  }`}
-                  onClick={() => {
-                    setFormData({ ...formData, style: s.label });
-                    setError("");
-                  }}
-                >
-                  <img src={s.image} alt={s.label} />
-                  <div>{s.label}</div>
-                </div>
-              ))}
-            </div>
-            {error && <div className="inline-error">{error}</div>}
-            <div className="nav-row">
-              <button className="btn btn-ghost" onClick={back}>
-                ← Back
-              </button>
-              <button className="btn btn-primary" onClick={next}>
-                Next →
-              </button>
-            </div>
-          </section>
-        )}
-
-        {/* STEP 3 */}
-        {step === 3 && (
-          <section
-            className={`step-container active ${
-              direction === "forward" ? "slide-left" : "slide-right"
-            }`}
-          >
-            <h2 className="lux-h2">What are we furnishing?</h2>
-            <div className="radio-group">
-              {properties.map((p) => (
-                <label key={p} className="radio-item">
-                  <input
-                    type="radio"
-                    name="property"
-                    checked={formData.property === p}
-                    onChange={() => {
-                      setFormData({ ...formData, property: p });
+          {step === 2 && (
+            <section>
+              <h2 className="lux-h2">Choose Your Style</h2>
+              <div className="style-grid">
+                {styles.map((s) => (
+                  <div
+                    key={s.label}
+                    className={`style-option ${
+                      formData.style === s.label ? "active" : ""
+                    }`}
+                    onClick={() => {
+                      setFormData({ ...formData, style: s.label });
                       setError("");
                     }}
-                  />
-                  {p}
-                </label>
-              ))}
-            </div>
-            {error && <div className="inline-error">{error}</div>}
-            <div className="nav-row">
-              <button className="btn btn-ghost" onClick={back}>
-                ← Back
-              </button>
-              <button className="btn btn-primary" onClick={next}>
-                Next →
-              </button>
-            </div>
-          </section>
-        )}
-
-        {/* STEP 4 */}
-        {step === 4 && (
-          <section
-            className={`step-container active ${
-              direction === "forward" ? "slide-left" : "slide-right"
-            }`}
-          >
-            <h2 className="lux-h2">Would you like to include...</h2>
-            <div className="checkbox-group">
-              {extras.map((x) => (
-                <label key={x} className="checkbox-item">
-                  <input
-                    type="checkbox"
-                    checked={formData.extras.includes(x)}
-                    onChange={() => toggleExtra(x)}
-                  />
-                  {x}
-                </label>
-              ))}
-            </div>
-            <div className="nav-row">
-              <button className="btn btn-ghost" onClick={back}>
-                ← Back
-              </button>
-              <button className="btn btn-primary" onClick={next}>
-                Next →
-              </button>
-            </div>
-          </section>
-        )}
-
-        {/* STEP 5 */}
-        {step === 5 && (
-          <section
-            className={`step-container active ${
-              direction === "forward" ? "slide-left" : "slide-right"
-            }`}
-          >
-            <h2 className="lux-h2">Your Quote Summary</h2>
-            <div className="summary-box">
-              <ul className="summary-list">
-                {formData.style && <li>{formData.style}</li>}
-                {formData.property && <li>{formData.property}</li>}
-                {formData.extras.map((x) => (
-                  <li key={x}>{x}</li>
+                  >
+                    <img src={s.image} alt={s.label} />
+                    <div>{s.label}</div>
+                  </div>
                 ))}
-              </ul>
-            </div>
-            <div className="nav-row">
-              <button className="btn btn-ghost" onClick={back}>
-                ← Back
-              </button>
-              <button className="btn btn-primary" onClick={next}>
-                Continue →
-              </button>
-            </div>
-          </section>
-        )}
-
-        {/* STEP 6 */}
-        {step === 6 && (
-          <section
-            className={`step-container active ${
-              direction === "forward" ? "slide-left" : "slide-right"
-            }`}
-          >
-            <h2 className="lux-title">
-              Your Refresh & Reuse Package Is Ready!
-            </h2>
-            <p className="intro-desc">
-              Please fill out your details and we’ll send you an estimate.
-            </p>
-
-            <div className="contact">
-              <div className="contact-header">
-                <img
-                  src="https://storage.googleapis.com/msgsndr/9BZdBwDz8uXZfiw31MXE/media/67b6de0a7c922f84a939e661.png"
-                  alt="One Two Six Design"
-                />
               </div>
+              {error && <div className="inline-error">{error}</div>}
+              <div className="nav-row">
+                <button className="fancy-btn reverse" onClick={back}>
+                  ← Back
+                </button>
+                <button className="fancy-btn" onClick={next}>
+                  Next →
+                </button>
+              </div>
+            </section>
+          )}
+
+          {step === 3 && (
+            <section>
+              <h2 className="lux-h2">What are we furnishing?</h2>
+              <div className="radio-group">
+                {properties.map((p) => (
+                  <label key={p} className="radio-item">
+                    <input
+                      type="radio"
+                      name="property"
+                      checked={formData.property === p}
+                      onChange={() => {
+                        setFormData({ ...formData, property: p });
+                        setError("");
+                      }}
+                    />
+                    {p}
+                  </label>
+                ))}
+              </div>
+              {error && <div className="inline-error">{error}</div>}
+              <div className="nav-row">
+                <button className="fancy-btn reverse" onClick={back}>
+                  ← Back
+                </button>
+                <button className="fancy-btn" onClick={next}>
+                  Next →
+                </button>
+              </div>
+            </section>
+          )}
+
+          {step === 4 && (
+            <section>
+              <h2 className="lux-h2">Would you like to include...</h2>
+              <div className="checkbox-group">
+                {extras.map((x) => (
+                  <label key={x} className="checkbox-item">
+                    <input
+                      type="checkbox"
+                      checked={formData.extras.includes(x)}
+                      onChange={() => toggleExtra(x)}
+                    />
+                    {x}
+                  </label>
+                ))}
+              </div>
+              <div className="nav-row">
+                <button className="fancy-btn reverse" onClick={back}>
+                  ← Back
+                </button>
+                <button className="fancy-btn" onClick={next}>
+                  Next →
+                </button>
+              </div>
+            </section>
+          )}
+
+          {step === 5 && (
+            <section>
+              <h2 className="lux-h2">Your Quote Summary</h2>
+              <div className="summary-box">
+                <ul className="summary-list">
+                  {formData.style && <li>{formData.style}</li>}
+                  {formData.property && <li>{formData.property}</li>}
+                  {formData.extras.map((x) => (
+                    <li key={x}>{x}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="nav-row">
+                <button className="fancy-btn reverse" onClick={back}>
+                  ← Back
+                </button>
+                <button className="fancy-btn" onClick={next}>
+                  Continue →
+                </button>
+              </div>
+            </section>
+          )}
+
+          {step === 6 && (
+            <section>
+              <h2 className="lux-title">
+                Your Refresh & Reuse Package Is Ready!
+              </h2>
+              <p className="intro-desc">
+                Please fill out your details and we’ll send you an estimate.
+              </p>
 
               <form className="contact-form" onSubmit={submit}>
-                <label>
-                  Name
-                  <input
-                    name="name"
-                    type="text"
-                    placeholder="Enter your name"
-                    value={formData.contact.name}
-                    onChange={handleContactChange}
-                    required
-                  />
-                </label>
-                <label>
-                  Address
-                  <input
-                    name="address"
-                    type="text"
-                    placeholder="Enter your address"
-                    value={formData.contact.address}
-                    onChange={handleContactChange}
-                    required
-                  />
-                </label>
-                <label>
-                  Email
-                  <input
-                    name="email"
-                    type="email"
-                    placeholder="Enter your email"
-                    value={formData.contact.email}
-                    onChange={handleContactChange}
-                    required
-                  />
-                </label>
-                <label>
-                  Phone
-                  <input
-                    name="phone"
-                    type="tel"
-                    placeholder="Enter your phone"
-                    value={formData.contact.phone}
-                    onChange={handleContactChange}
-                    required
-                  />
-                </label>
+                {["name", "address", "email", "phone"].map((field) => (
+                  <label key={field}>
+                    {field.charAt(0).toUpperCase() + field.slice(1)}
+                    <input
+                      type={
+                        field === "email"
+                          ? "email"
+                          : field === "phone"
+                          ? "tel"
+                          : "text"
+                      }
+                      name={field}
+                      placeholder={`Enter your ${field}`}
+                      value={formData.contact[field]}
+                      onChange={handleContactChange}
+                      required
+                    />
+                  </label>
+                ))}
 
-                <button className="btn btn-primary" type="submit">
+                <button className="fancy-btn wide" type="submit">
                   Send Me My Quote
                 </button>
               </form>
-            </div>
-          </section>
-        )}
+            </section>
+          )}
 
-        {/* STEP 7 */}
-        {step === 7 && (
-          <section className="step-container active fade-in thankyou">
-            <img
-              className="thankyou-logo"
-              src="https://storage.googleapis.com/msgsndr/9BZdBwDz8uXZfiw31MXE/media/67b6de0a7c922f84a939e661.png"
-              alt="One Two Six Design"
-            />
-            <h2>Thank You!</h2>
-            <p>
-              Your quote request has been submitted. <br />
-              Our team will be in touch soon to confirm your details.
-            </p>
-          </section>
-        )}
+          {step === 7 && (
+            <section className="thankyou fade-in">
+              <img
+                className="thankyou-logo"
+                src="https://storage.googleapis.com/msgsndr/9BZdBwDz8uXZfiw31MXE/media/67b6de0a7c922f84a939e661.png"
+                alt="One Two Six Design"
+              />
+              <h2>Thank You!</h2>
+              <p>
+                Your quote request has been submitted. <br />
+                Our team will be in touch soon.
+              </p>
+            </section>
+          )}
+        </div>
       </div>
     </div>
   );

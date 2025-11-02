@@ -77,45 +77,64 @@ body {
   margin-top: 32px;
 }
 
-/* ------------------ Buttons ------------------ */
-.btn {
+/* ------------------ Fancy Buttons ------------------ */
+.fancy-btn {
+  position: relative;
+  display: inline-block;
+  padding: 12px 26px;
+  border: 1px solid #000;
+  background: transparent;
+  color: #000;
   font-family: "Tenor Sans", sans-serif;
-  border: 1px solid #000;
-  border-radius: 0;
-  cursor: pointer;
-  padding: 12px 28px;
   font-size: 15px;
-  font-weight: 400;
-  letter-spacing: 0.4px;
-  background: transparent;
-  color: #000;
-  transition: 0.3s ease;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: color 0.35s ease, border-color 0.35s ease;
+  z-index: 0;
 }
 
-.btn-primary {
-  background: #000;
-  color: #fff;
-}
-
-.btn-primary:hover {
-  opacity: 0.85;
-}
-
-.btn-ghost {
-  background: transparent;
-  border: 1px solid #000;
-  color: #000;
-}
-
-.btn-ghost:hover {
-  background: #000;
-  color: #fff;
-}
-
-.btn.wide {
+.fancy-btn.wide {
   width: 100%;
 }
 
+.fancy-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #a7a58d; /* elegant gold tone */
+  transform: translateX(-100%) skewX(20deg);
+  transform-origin: left center;
+  transition: transform 0.55s cubic-bezier(.22, .61, .36, 1);
+  z-index: -1;
+}
+
+.fancy-btn:hover::before {
+  transform: translateX(0) skewX(0);
+}
+
+.fancy-btn:hover {
+  color: #fff;
+  border-color: #a7a58d;
+}
+
+/* reverse sweep for “Back” buttons */
+.fancy-btn.reverse::before {
+  transform: translateX(100%) skewX(-20deg);
+  transform-origin: right center;
+}
+.fancy-btn.reverse:hover::before {
+  transform: translateX(0) skewX(0);
+}
+
+@media (max-width: 768px) {
+  .fancy-btn {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+}
+
+/* Navigation Row */
 .nav-row {
   margin-top: 40px;
   display: flex;
@@ -123,7 +142,7 @@ body {
   gap: 12px;
 }
 
-/* STYLE GRID FIX */
+/* ------------------ Style Grid ------------------ */
 .style-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -147,8 +166,8 @@ body {
 }
 
 .style-option:hover {
- border: 1px solid #000;
- box-shadow: 0 0 0 1px #000;
+  border: 1px solid #000;
+  box-shadow: 0 0 0 1px #000;
 }
 
 .style-option.active {
@@ -156,14 +175,13 @@ body {
   box-shadow: 0 0 0 1px #000;
 }
 
-/* INLINE ERROR MESSAGE */
+/* ------------------ Inline Error ------------------ */
 .inline-error {
   color: #d33;
   text-align: center;
   margin-top: 20px;
   font-size: 14px;
 }
-
 
 /* ------------------ Radio & Checkbox ------------------ */
 .radio-group,
@@ -187,7 +205,6 @@ body {
   justify-content: flex-start;
 }
 
-/* ✅ Custom radio & checkbox style */
 input[type="radio"],
 input[type="checkbox"] {
   appearance: none;
@@ -206,17 +223,7 @@ input[type="checkbox"] {
   border-radius: 2px;
 }
 
-input[type="radio"]:checked::after {
-  content: "";
-  width: 10px;
-  height: 10px;
-  background: #000;
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  border-radius: 50%;
-}
-
+input[type="radio"]:checked::after,
 input[type="checkbox"]:checked::after {
   content: "";
   width: 10px;
@@ -225,6 +232,7 @@ input[type="checkbox"]:checked::after {
   position: absolute;
   top: 3px;
   left: 3px;
+  border-radius: 50%;
 }
 
 /* ------------------ Summary ------------------ */
@@ -264,18 +272,21 @@ input[type="checkbox"]:checked::after {
   text-align: left;
 }
 
-
 .contact-header img {
   width: 200px;
   height: auto;
 }
 
+/* Center the contact form vertically + horizontally ONLY on step 6 */
 .contact-form {
-  flex: 1;
-  max-width: 400px;
-  justify-content: center;
-      
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 80vh; /* centers nicely without full 100vh cutoff */
+  margin: 0 auto;
 }
+
 
 .contact-form label {
   display: block;
@@ -299,120 +310,10 @@ input[type="checkbox"]:checked::after {
   outline: none;
 }
 
-.contact .btn-primary {
-  width: 100%;
-  background: #000;
-  color: #fff;
-  padding: 14px;
-  font-size: 15px;
-  border: none;
-  margin-top: 10px;
-}
-
-/* ------------------ Responsive ------------------ */
-@media (max-width: 900px) {
-  .style-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .contact {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .contact-header img {
-    width: 150px;
-    margin-bottom: 20px;
-  }
-
-  .contact-form {
-    width: 100%;
-    max-width: 360px;
-  }
-}
-
-@media (max-width: 768px) {
-  .intro-images.double img {
-    width: 100%;
-    height: auto;
-  }
-
-  .lux-title {
-    font-size: 1.6rem;
-  }
-
-  .lux-h2 {
-    font-size: 1.3rem;
-  }
-
-  .btn {
-    font-size: 14px;
-    padding: 10px 20px;
-  }
-
-  .summary-box {
-    padding: 20px;
-  }
-}
-
-/* ------------------ Mobile Fix for Contact Step ------------------ */
-@media (max-width: 600px) {
-  .contact {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 0 20px;
-  }
-  
-
-  .contact-header img {
-    width: 120px;          /* ✅ smaller logo */
-    height: auto;
-    margin: 0 auto 20px;   /* ✅ center the logo */
-    display: block;
-  }
-
-  .contact-form {
-    
-    width: 100%;
-    max-width: 340px;
-    margin: 0 auto;
-  }
-
-  .contact-form label {
-    display: flex;
-    width: 91%;
-
-    flex-direction: column;
-    font-size: 14px;
-    text-align: left;
-  }
-
-  .contact-form input {
-    border: 1px solid #aaa;
-    padding: 12px;
-    margin-bottom: 14px;
-    border-radius: 0;
-  }
-
-  .contact .btn-primary {
-    width: 100%;
-    background: #000;
-    color: #fff;
-    padding: 14px 20px;
-    font-size: 15px;
-    border: none;
-    margin-top: 10px;
-    text-align: center;
-    display: block;
-  }
-
-  /* ✅ Extra breathing space for mobile */
-  .page {
-    padding: 20px 10px 40px;
-  }
+/* Fix oversized submit button only in contact form */
+.contact-form .fancy-btn.wide {
+  width: auto;
+  align-self: center;
 }
 
 
@@ -436,7 +337,6 @@ input[type="checkbox"]:checked::after {
 }
 
 .thankyou h2 {
-  font-family: "Tenor Sans", sans-serif;
   font-weight: 400;
   font-size: 1.9rem;
   color: #000;
@@ -454,45 +354,16 @@ input[type="checkbox"]:checked::after {
 
 /* ------------------ Animations ------------------ */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes floatIn {
-  from {
-    opacity: 0;
-    transform: translateY(-15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-15px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* ------------------ Responsive ------------------ */
-@media (max-width: 768px) {
-  .thankyou-logo {
-    width: 150px;
-    margin-bottom: 20px;
-  }
-
-  .thankyou h2 {
-    font-size: 1.6rem;
-  }
-
-  .thankyou p {
-    font-size: 14px;
-    padding: 0 20px;
-  }
-}
-
-/* ------------------ Wizard Step Animation ------------------ */
+/* ------------------ Step Transitions ------------------ */
 .step-wrapper {
   position: relative;
   overflow: hidden;
@@ -515,48 +386,88 @@ input[type="checkbox"]:checked::after {
   position: relative;
 }
 
-/* Directional animation */
 .step-container.slide-left {
   animation: slideLeft 0.6s ease forwards;
 }
-
 .step-container.slide-right {
   animation: slideRight 0.6s ease forwards;
 }
 
 @keyframes slideLeft {
-  from {
-    opacity: 0;
-    transform: translateX(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(50px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes slideRight {
-  from {
-    opacity: 0;
-    transform: translateX(-50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(-50px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
-/* Smooth fade between steps */
-.fade-in {
-  animation: fadeInStep 0.6s ease forwards;
+/* ------------------ Responsive ------------------ */
+@media (max-width: 900px) {
+  .style-grid { grid-template-columns: 1fr; }
+  .contact { flex-direction: column; text-align: center; }
+  .contact-header img { width: 150px; margin-bottom: 20px; }
+  .contact-form { width: 100%; max-width: 360px; }
 }
-@keyframes fadeInStep {
-  from {
-    opacity: 0;
-    transform: scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+
+@media (max-width: 768px) {
+  .intro-images.double img { width: 100%; height: auto; }
+  .lux-title { font-size: 1.6rem; }
+  .lux-h2 { font-size: 1.3rem; }
+  .summary-box { padding: 20px; }
+  .thankyou-logo { width: 150px; margin-bottom: 20px; }
+  .thankyou h2 { font-size: 1.6rem; }
+  .thankyou p { font-size: 14px; padding: 0 20px; }
+}
+
+/* ------------------ Mobile Fix for Contact ------------------ */
+@media (max-width: 600px) {
+  .contact { flex-direction: column; text-align: center; padding: 0 20px; }
+  .contact-header img { width: 120px; margin: 0 auto 20px; display: block; }
+  .contact-form { width: 100%; max-width: 340px; margin: 0 auto; }
+  .contact-form label { width: 91%; font-size: 14px; text-align: left; }
+  .contact-form input { padding: 12px; margin-bottom: 14px; }
+  .page { padding: 20px 10px 40px; }
+}
+
+/* ============ STEP ANIMATION WRAPPER ============ */
+.step-wrapper {
+  position: relative;
+  overflow: hidden;
+  min-height: 420px;
+}
+
+.step-anim {
+  will-change: transform, opacity;
+}
+
+/* Forward → slide in from right */
+.slide-in-right {
+  animation: slideInRight 0.5s cubic-bezier(.22,.61,.36,1) both;
+}
+
+/* Backward ← slide in from left */
+.slide-in-left {
+  animation: slideInLeft 0.5s cubic-bezier(.22,.61,.36,1) both;
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Optional smoother fade-in */
+.fade-in {
+  animation: fadeIn 0.6s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
 }
