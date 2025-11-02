@@ -20,6 +20,7 @@ const BEDROOMS_BY_PROPERTY = {
 
 export default function Survey() {
   const [step, setStep] = useState(1);
+  const [direction, setDirection] = useState("forward");
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     style: "",
@@ -55,7 +56,6 @@ export default function Survey() {
   const buildLineItems = () => {
     const items = [];
 
-    // Bedrooms
     if (bedrooms > 0) {
       items.push({
         label: "Bedroom",
@@ -118,12 +118,14 @@ export default function Survey() {
       return;
     }
     setError("");
+    setDirection("forward");
     setStep((s) => Math.min(s + 1, 7));
     window.scrollTo(0, 0);
   };
 
   const back = () => {
     setError("");
+    setDirection("backward");
     setStep((s) => Math.max(s - 1, 1));
     window.scrollTo(0, 0);
   };
@@ -182,230 +184,258 @@ export default function Survey() {
         <div>Step {Math.min(step, 7)} / 7</div>
       </div>
 
-      {/* STEP 1 */}
-      {step === 1 && (
-        <section className="intro">
-          <h2 className="lux-title">
-            Ready to Rent — Let’s furnish your Airbnb in style.
-          </h2>
-          <p className="intro-desc">
-            Get your Airbnb guest-ready — fast, stylish, and turnkey. We’ll help
-            you furnish quickly and budget-consciously, while still showing One
-            Two Six Design’s curated touch.
-          </p>
-          <div className="intro-images double">
-            <img src="/images/File1.png" alt="Airbnb 1" />
-            <img src="/images/File5.png" alt="Airbnb 2" />
-          </div>
-          <div className="intro-btn">
-            <button className="btn btn-primary" onClick={next}>
-              Start My Quote
-            </button>
-          </div>
-        </section>
-      )}
+      <div className="step-wrapper">
+        {/* STEP 1 */}
+        {step === 1 && (
+          <section
+            className={`step-container active ${
+              direction === "forward" ? "slide-left" : "slide-right"
+            }`}
+          >
+            <h2 className="lux-title">
+              Ready to Rent — Let’s furnish your Airbnb in style.
+            </h2>
+            <p className="intro-desc">
+              Get your Airbnb guest-ready — fast, stylish, and turnkey. We’ll
+              help you furnish quickly and budget-consciously, while still
+              showing One Two Six Design’s curated touch.
+            </p>
+            <div className="intro-images double">
+              <img src="/images/File1.png" alt="Airbnb 1" />
+              <img src="/images/File5.png" alt="Airbnb 2" />
+            </div>
+            <div className="intro-btn">
+              <button className="btn btn-primary" onClick={next}>
+                Start My Quote
+              </button>
+            </div>
+          </section>
+        )}
 
-      {/* STEP 2 */}
-      {step === 2 && (
-        <section className="style-step">
-          <h2 className="lux-h2">Choose Your Style</h2>
-          <div className="style-grid">
-            {styles.map((s) => (
-              <div
-                key={s.label}
-                className={`style-option ${
-                  formData.style === s.label ? "active" : ""
-                }`}
-                onClick={() => {
-                  setFormData({ ...formData, style: s.label });
-                  setError("");
-                }}
-              >
-                <img src={s.image} alt={s.label} />
-                <div>{s.label}</div>
-              </div>
-            ))}
-          </div>
-          {error && <div className="inline-error">{error}</div>}
-          <div className="nav-row">
-            <button className="btn btn-ghost" onClick={back}>
-              ← Back
-            </button>
-            <button className="btn btn-primary" onClick={next}>
-              Next →
-            </button>
-          </div>
-        </section>
-      )}
-
-      {/* STEP 3 */}
-      {step === 3 && (
-        <section className="property-step">
-          <h2 className="lux-h2">What are we furnishing?</h2>
-          <div className="radio-group">
-            {properties.map((p) => (
-              <label key={p} className="radio-item">
-                <input
-                  type="radio"
-                  name="property"
-                  checked={formData.property === p}
-                  onChange={() => {
-                    setFormData({ ...formData, property: p });
+        {/* STEP 2 */}
+        {step === 2 && (
+          <section
+            className={`step-container active ${
+              direction === "forward" ? "slide-left" : "slide-right"
+            }`}
+          >
+            <h2 className="lux-h2">Choose Your Style</h2>
+            <div className="style-grid">
+              {styles.map((s) => (
+                <div
+                  key={s.label}
+                  className={`style-option ${
+                    formData.style === s.label ? "active" : ""
+                  }`}
+                  onClick={() => {
+                    setFormData({ ...formData, style: s.label });
                     setError("");
                   }}
-                />
-                {p}
-              </label>
-            ))}
-          </div>
-          {error && <div className="inline-error">{error}</div>}
-          <div className="nav-row">
-            <button className="btn btn-ghost" onClick={back}>
-              ← Back
-            </button>
-            <button className="btn btn-primary" onClick={next}>
-              Next →
-            </button>
-          </div>
-        </section>
-      )}
-
-      {/* STEP 4 */}
-      {step === 4 && (
-        <section className="extras-step">
-          <h2 className="lux-h2">Would you like to include...</h2>
-          <div className="checkbox-group">
-            {extras.map((x) => (
-              <label key={x} className="checkbox-item">
-                <input
-                  type="checkbox"
-                  checked={formData.extras.includes(x)}
-                  onChange={() => toggleExtra(x)}
-                />
-                {x}
-              </label>
-            ))}
-          </div>
-          <div className="nav-row">
-            <button className="btn btn-ghost" onClick={back}>
-              ← Back
-            </button>
-            <button className="btn btn-primary" onClick={next}>
-              Next →
-            </button>
-          </div>
-        </section>
-      )}
-
-      {/* STEP 5 */}
-      {step === 5 && (
-        <section className="summary-step">
-          <h2 className="lux-h2">Your Quote Summary</h2>
-          <div className="summary-box">
-            <ul className="summary-list">
-              {formData.style && <li>{formData.style}</li>}
-              {formData.property && <li>{formData.property}</li>}
-              {formData.extras.map((x) => (
-                <li key={x}>{x}</li>
+                >
+                  <img src={s.image} alt={s.label} />
+                  <div>{s.label}</div>
+                </div>
               ))}
-            </ul>
-          </div>
-          <div className="nav-row">
-            <button className="btn btn-ghost" onClick={back}>
-              ← Back
-            </button>
-            <button className="btn btn-primary" onClick={next}>
-              Continue →
-            </button>
-          </div>
-        </section>
-      )}
-
-      {/* STEP 6 */}
-      {step === 6 && (
-        <section className="contact-step">
-          <h2 className="lux-title">Your Refresh & Reuse Package Is Ready!</h2>
-          <p className="intro-desc">
-            Please fill out your details and we’ll send you an estimate.
-          </p>
-
-          <div className="contact">
-            <div className="contact-header">
-              <img
-                src="https://storage.googleapis.com/msgsndr/9BZdBwDz8uXZfiw31MXE/media/67b6de0a7c922f84a939e661.png"
-                alt="One Two Six Design"
-              />
             </div>
-
-            <form className="contact-form" onSubmit={submit}>
-              <label>
-                Name
-                <input
-                  name="name"
-                  type="text"
-                  placeholder="Enter your name"
-                  value={formData.contact.name}
-                  onChange={handleContactChange}
-                  required
-                />
-              </label>
-              <label>
-                Address
-                <input
-                  name="address"
-                  type="text"
-                  placeholder="Enter your address"
-                  value={formData.contact.address}
-                  onChange={handleContactChange}
-                  required
-                />
-              </label>
-              <label>
-                Email
-                <input
-                  name="email"
-                  type="email"
-                  placeholder="Enter your email"
-                  value={formData.contact.email}
-                  onChange={handleContactChange}
-                  required
-                />
-              </label>
-              <label>
-                Phone
-                <input
-                  name="phone"
-                  type="tel"
-                  placeholder="Enter your phone"
-                  value={formData.contact.phone}
-                  onChange={handleContactChange}
-                  required
-                />
-              </label>
-
-              <button className="btn btn-primary" type="submit">
-                Send Me My Quote
+            {error && <div className="inline-error">{error}</div>}
+            <div className="nav-row">
+              <button className="btn btn-ghost" onClick={back}>
+                ← Back
               </button>
-            </form>
-          </div>
-        </section>
-      )}
+              <button className="btn btn-primary" onClick={next}>
+                Next →
+              </button>
+            </div>
+          </section>
+        )}
 
-      {/* STEP 7 */}
-      {step === 7 && (
-        <section className="thankyou">
-          <img
-            className="thankyou-logo"
-            src="https://storage.googleapis.com/msgsndr/9BZdBwDz8uXZfiw31MXE/media/67b6de0a7c922f84a939e661.png"
-            alt="One Two Six Design"
-          />
-          <h2>Thank You!</h2>
-          <p>
-            Your quote request has been submitted. <br />
-            Our team will be in touch soon to confirm your details.
-          </p>
-        </section>
-      )}
+        {/* STEP 3 */}
+        {step === 3 && (
+          <section
+            className={`step-container active ${
+              direction === "forward" ? "slide-left" : "slide-right"
+            }`}
+          >
+            <h2 className="lux-h2">What are we furnishing?</h2>
+            <div className="radio-group">
+              {properties.map((p) => (
+                <label key={p} className="radio-item">
+                  <input
+                    type="radio"
+                    name="property"
+                    checked={formData.property === p}
+                    onChange={() => {
+                      setFormData({ ...formData, property: p });
+                      setError("");
+                    }}
+                  />
+                  {p}
+                </label>
+              ))}
+            </div>
+            {error && <div className="inline-error">{error}</div>}
+            <div className="nav-row">
+              <button className="btn btn-ghost" onClick={back}>
+                ← Back
+              </button>
+              <button className="btn btn-primary" onClick={next}>
+                Next →
+              </button>
+            </div>
+          </section>
+        )}
+
+        {/* STEP 4 */}
+        {step === 4 && (
+          <section
+            className={`step-container active ${
+              direction === "forward" ? "slide-left" : "slide-right"
+            }`}
+          >
+            <h2 className="lux-h2">Would you like to include...</h2>
+            <div className="checkbox-group">
+              {extras.map((x) => (
+                <label key={x} className="checkbox-item">
+                  <input
+                    type="checkbox"
+                    checked={formData.extras.includes(x)}
+                    onChange={() => toggleExtra(x)}
+                  />
+                  {x}
+                </label>
+              ))}
+            </div>
+            <div className="nav-row">
+              <button className="btn btn-ghost" onClick={back}>
+                ← Back
+              </button>
+              <button className="btn btn-primary" onClick={next}>
+                Next →
+              </button>
+            </div>
+          </section>
+        )}
+
+        {/* STEP 5 */}
+        {step === 5 && (
+          <section
+            className={`step-container active ${
+              direction === "forward" ? "slide-left" : "slide-right"
+            }`}
+          >
+            <h2 className="lux-h2">Your Quote Summary</h2>
+            <div className="summary-box">
+              <ul className="summary-list">
+                {formData.style && <li>{formData.style}</li>}
+                {formData.property && <li>{formData.property}</li>}
+                {formData.extras.map((x) => (
+                  <li key={x}>{x}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="nav-row">
+              <button className="btn btn-ghost" onClick={back}>
+                ← Back
+              </button>
+              <button className="btn btn-primary" onClick={next}>
+                Continue →
+              </button>
+            </div>
+          </section>
+        )}
+
+        {/* STEP 6 */}
+        {step === 6 && (
+          <section
+            className={`step-container active ${
+              direction === "forward" ? "slide-left" : "slide-right"
+            }`}
+          >
+            <h2 className="lux-title">
+              Your Refresh & Reuse Package Is Ready!
+            </h2>
+            <p className="intro-desc">
+              Please fill out your details and we’ll send you an estimate.
+            </p>
+
+            <div className="contact">
+              <div className="contact-header">
+                <img
+                  src="https://storage.googleapis.com/msgsndr/9BZdBwDz8uXZfiw31MXE/media/67b6de0a7c922f84a939e661.png"
+                  alt="One Two Six Design"
+                />
+              </div>
+
+              <form className="contact-form" onSubmit={submit}>
+                <label>
+                  Name
+                  <input
+                    name="name"
+                    type="text"
+                    placeholder="Enter your name"
+                    value={formData.contact.name}
+                    onChange={handleContactChange}
+                    required
+                  />
+                </label>
+                <label>
+                  Address
+                  <input
+                    name="address"
+                    type="text"
+                    placeholder="Enter your address"
+                    value={formData.contact.address}
+                    onChange={handleContactChange}
+                    required
+                  />
+                </label>
+                <label>
+                  Email
+                  <input
+                    name="email"
+                    type="email"
+                    placeholder="Enter your email"
+                    value={formData.contact.email}
+                    onChange={handleContactChange}
+                    required
+                  />
+                </label>
+                <label>
+                  Phone
+                  <input
+                    name="phone"
+                    type="tel"
+                    placeholder="Enter your phone"
+                    value={formData.contact.phone}
+                    onChange={handleContactChange}
+                    required
+                  />
+                </label>
+
+                <button className="btn btn-primary" type="submit">
+                  Send Me My Quote
+                </button>
+              </form>
+            </div>
+          </section>
+        )}
+
+        {/* STEP 7 */}
+        {step === 7 && (
+          <section className="step-container active fade-in thankyou">
+            <img
+              className="thankyou-logo"
+              src="https://storage.googleapis.com/msgsndr/9BZdBwDz8uXZfiw31MXE/media/67b6de0a7c922f84a939e661.png"
+              alt="One Two Six Design"
+            />
+            <h2>Thank You!</h2>
+            <p>
+              Your quote request has been submitted. <br />
+              Our team will be in touch soon to confirm your details.
+            </p>
+          </section>
+        )}
+      </div>
     </div>
   );
 }

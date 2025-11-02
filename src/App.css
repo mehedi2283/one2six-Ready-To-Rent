@@ -492,3 +492,71 @@ input[type="checkbox"]:checked::after {
   }
 }
 
+/* ------------------ Wizard Step Animation ------------------ */
+.step-wrapper {
+  position: relative;
+  overflow: hidden;
+  min-height: 400px;
+}
+
+.step-container {
+  position: absolute;
+  width: 100%;
+  opacity: 0;
+  transform: translateX(40px);
+  transition: all 0.6s cubic-bezier(0.55, 0.08, 0.68, 0.53);
+  top: 0;
+  left: 0;
+}
+
+.step-container.active {
+  opacity: 1;
+  transform: translateX(0);
+  position: relative;
+}
+
+/* Directional animation */
+.step-container.slide-left {
+  animation: slideLeft 0.6s ease forwards;
+}
+
+.step-container.slide-right {
+  animation: slideRight 0.6s ease forwards;
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Smooth fade between steps */
+.fade-in {
+  animation: fadeInStep 0.6s ease forwards;
+}
+@keyframes fadeInStep {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
