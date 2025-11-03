@@ -75,6 +75,7 @@ body {
 .intro-btn {
   text-align: center;
   margin-top: 32px;
+  padding-bottom: 5px;
 }
 
 /* ------------------ Fancy Buttons ------------------ */
@@ -296,7 +297,7 @@ input[type="checkbox"]:checked::after {
 }
 
 .contact-form input {
-  width: 100%;
+  width:100%;
   border: 1px solid #aaa;
   padding: 10px;
   font-size: 14px;
@@ -470,4 +471,75 @@ input[type="checkbox"]:checked::after {
 @keyframes fadeIn {
   from { opacity: 0; transform: scale(0.98); }
   to { opacity: 1; transform: scale(1); }
+}
+
+
+
+
+
+.contact-container {
+  display: flex;
+  max-width: 50%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 85vh;
+  text-align: center;
+  margin: auto;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 20px;
+  box-sizing: border-box;
+}
+
+.contact-form label {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-bottom: 16px;
+  font-size: 14px;
+  letter-spacing: 0.3px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.contact-form input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #aaa;
+  font-size: 15px;
+  margin-top: 6px;
+  border-radius: 0;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.contact-form input:focus {
+  border-color: #000;
+  outline: none;
+}
+
+.contact-form .fancy-btn {
+  margin-top: 20px;
+  width: 100%;
+  align-self: center;
+}
+
+/* Mobile fix */
+@media (max-width: 600px) {
+
+  .contact-container {
+  
+  max-width: 100%;
+ 
+}
+  
+  .contact-form {
+    padding: 20px 16px;
+  }
 }

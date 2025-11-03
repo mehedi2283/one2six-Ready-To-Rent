@@ -310,40 +310,41 @@ export default function Survey() {
             </section>
           )}
 
+          {/* REFINED CONTACT FORM ONLY */}
           {step === 6 && (
-            <section>
+            <section className="contact-section">
               <h2 className="lux-title">
                 Your Refresh & Reuse Package Is Ready!
               </h2>
               <p className="intro-desc">
                 Please fill out your details and we’ll send you an estimate.
               </p>
-
-              <form className="contact-form" onSubmit={submit}>
-                {["name", "address", "email", "phone"].map((field) => (
-                  <label key={field}>
-                    {field.charAt(0).toUpperCase() + field.slice(1)}
-                    <input
-                      type={
-                        field === "email"
-                          ? "email"
-                          : field === "phone"
-                          ? "tel"
-                          : "text"
-                      }
-                      name={field}
-                      placeholder={`Enter your ${field}`}
-                      value={formData.contact[field]}
-                      onChange={handleContactChange}
-                      required
-                    />
-                  </label>
-                ))}
-
-                <button className="fancy-btn wide" type="submit">
-                  Send Me My Quote
-                </button>
-              </form>
+              <div className="contact-container">
+                <form className="contact-form" onSubmit={submit}>
+                  {["name", "address", "email", "phone"].map((field) => (
+                    <label key={field}>
+                      {field.charAt(0).toUpperCase() + field.slice(1)}
+                      <input
+                        type={
+                          field === "email"
+                            ? "email"
+                            : field === "phone"
+                            ? "tel"
+                            : "text"
+                        }
+                        name={field}
+                        placeholder={`Enter your ${field}`}
+                        value={formData.contact[field]}
+                        onChange={handleContactChange}
+                        required
+                      />
+                    </label>
+                  ))}
+                  <button className="fancy-btn" type="submit">
+                    Send Me My Quote
+                  </button>
+                </form>
+              </div>
             </section>
           )}
 
