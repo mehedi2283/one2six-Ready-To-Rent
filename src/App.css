@@ -148,15 +148,15 @@ body {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 24px;
-  width: 75%;
+  width: 70%;
   margin: auto;
 }
 
 .style-option {
   border: 1px solid #ccc;
   text-align: center;
-  font-size: larger;
-  font-weight: 700;
+  font-size:large;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
 }
