@@ -148,22 +148,25 @@ body {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 24px;
+  width: 85%;
+  margin: auto;
 }
 
 .style-option {
   border: 1px solid #ccc;
-  padding: 10px;
   text-align: center;
+  font-size: larger;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .style-option img {
   width: 100%;
-  height: 240px;
   object-fit: cover;
   object-position: center;
   transition: transform 0.2s ease;
+  
 }
 
 .style-option:hover {
