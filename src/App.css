@@ -318,9 +318,9 @@ body {
 }
 
 .intro-images.double img {
-  width: 48%;
-  height: 400px;
-  object-fit: cover;
+  width:60%;
+  height:400px;
+  object-fit: fill;
   border: 1px solid rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease;
 }
@@ -484,6 +484,8 @@ body {
   .nav-row {
     justify-content: center;
   }
+
+  
 }
 
 @media (max-width: 768px) {
@@ -507,13 +509,14 @@ body {
   }
 
   .intro-images.double {
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     gap: 5px;
   }
 
   .intro-images.double img {
+    width: 90%;
     flex: 0 0 auto;
     height: auto;
     aspect-ratio: 4 / 3;
@@ -539,9 +542,7 @@ body {
     padding: 28px 20px;
   }
 
-  .contact-form input {
-    width: 250px;
-  }
+  
 
   .pill-row {
     justify-content: center;

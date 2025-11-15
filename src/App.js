@@ -27,7 +27,7 @@ const STEPS = [
     description:
       "Get your Airbnb guest-ready — fast, stylish, and turnkey. We’ll help you furnish quickly and budget-consciously, while still showing One Two Six Design’s curated touch.",
     cta: "Start My Quote",
-    images: ["/images/File1.png", "/images/File5.png"],
+    images: ["/images/File1.WEBP", "/images/File2.WEBP"],
   },
 
   {
