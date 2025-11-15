@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import "./App.css";
+import LazyImage from "./LazyImage";
 
 /* ------------------ Pricing ------------------ */
 const PRICING = {
@@ -9,11 +10,9 @@ const PRICING = {
   bathroom: { label: "Bathroom", price: 250 },
   kitchenArt: { label: "Kitchen (Art & Accessories)", price: 100 },
 
-  /* Editable qty add-ons */
   kitchenEssentials: { label: "Kitchen Essentials (Add-on)", price: 500 },
   patio: { label: "Patio Area (Add-on)", price: 1000 },
 
-  /* Fixed toggle add-ons */
   entryway: { label: "Entryway Package (Add-on)", price: 600 },
   office: { label: "Office / Den Package (Add-on)", price: 1000 },
 };
@@ -42,7 +41,6 @@ const STEPS = [
     ],
   },
 
-  /* Room qty steps with images */
   {
     id: "living",
     kind: "qty",
@@ -84,7 +82,6 @@ const STEPS = [
     priceKey: "kitchenArt",
   },
 
-  /* Add-ons (editable qty) */
   {
     id: "kitchenEssentials",
     kind: "qtyNoImage",
@@ -100,7 +97,6 @@ const STEPS = [
     priceKey: "patio",
   },
 
-  /* Fixed toggle add-ons */
   {
     id: "entryway",
     kind: "fixedNoImage",
@@ -130,7 +126,7 @@ const STEPS = [
 const WEBHOOK_URL =
   "https://services.leadconnectorhq.com/hooks/9BZdBwDz8uXZfiw31MXE/webhook-trigger/Z5Xbq96KX87B2hrAHIM6";
 
-/* ------------------ Pill ------------------ */
+/* ------------------ Quantity Pill ------------------ */
 const QtyPill = ({ value, active, onClick }) => (
   <button
     type="button"
@@ -141,12 +137,13 @@ const QtyPill = ({ value, active, onClick }) => (
   </button>
 );
 
-/* ===================================================== */
+/* ================================================================== */
 
 export default function App() {
   const [step, setStep] = useState(0);
   const [isBack, setIsBack] = useState(false);
   const [error, setError] = useState("");
+  const [submitted, setSubmitted] = useState(false);
 
   const [qty, setQty] = useState(
     Object.keys(PRICING).reduce((acc, k) => ({ ...acc, [k]: null }), {})
@@ -161,7 +158,6 @@ export default function App() {
     phone: "",
   });
 
-  const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const current = STEPS[step];
@@ -171,7 +167,7 @@ export default function App() {
     setError("");
   };
 
-  /* ---------- Line Items ---------- */
+  /* ------------------ Build Line Items ------------------ */
   const lineItems = useMemo(() => {
     return Object.entries(qty)
       .filter(([_, q]) => q && q > 0)
@@ -189,7 +185,7 @@ export default function App() {
     [lineItems]
   );
 
-  /* ---------- Navigation ---------- */
+  /* ------------------ Navigation ------------------ */
   const next = () => {
     const optional = ["kitchenEssentials", "patio", "entryway", "office"];
 
@@ -217,7 +213,7 @@ export default function App() {
     setStep((s) => Math.max(0, s - 1));
   };
 
-  /* ---------- Contact ---------- */
+  /* ------------------ Submit Quote ------------------ */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -262,7 +258,6 @@ export default function App() {
       });
 
       setSubmitted(true);
-      
     } catch (err) {
       setError("Error sending. Try again.");
     } finally {
@@ -270,7 +265,8 @@ export default function App() {
     }
   };
 
-  /* ============================================================= */
+  /* ================================================================== */
+
   return (
     <div className="page">
       <div className="topbar">
@@ -281,7 +277,7 @@ export default function App() {
         key={step + "-" + (isBack ? "back" : "forward")}
         className={`step-anim ${isBack ? "slide-in-left" : "slide-in-right"}`}
       >
-        {/* INTRO */}
+        {/* ------------------ INTRO ------------------ */}
         {current.kind === "intro" && (
           <section className="intro">
             <h1 className="lux-title">{current.title}</h1>
@@ -289,7 +285,7 @@ export default function App() {
 
             <div className="intro-images double">
               {current.images.map((img, i) => (
-                <img key={i} src={img} alt="" />
+                <LazyImage key={i} src={img} alt="" />
               ))}
             </div>
 
@@ -301,7 +297,7 @@ export default function App() {
           </section>
         )}
 
-        {/* STYLE */}
+        {/* ------------------ STYLE ------------------ */}
         {current.kind === "style" && (
           <section>
             <h2 className="lux-h2">{current.title}</h2>
@@ -315,7 +311,7 @@ export default function App() {
                   }`}
                   onClick={() => setStyleChoice(s.label)}
                 >
-                  <img src={s.image} alt="" />
+                  <LazyImage src={s.image} alt={s.label} />
                   <div>{s.label}</div>
                 </div>
               ))}
@@ -334,14 +330,14 @@ export default function App() {
           </section>
         )}
 
-        {/* ROOM QTY WITH IMAGE */}
+        {/* ------------------ QTY WITH IMAGE ------------------ */}
         {current.kind === "qty" && (
           <section className="step card">
             <h2 className="lux-h2">{current.title}</h2>
 
             <div className="fixed-grid">
               <div className="media">
-                <img src={current.image} alt="" />
+                <LazyImage src={current.image} alt={current.title} />
               </div>
 
               <div>
@@ -390,7 +386,7 @@ export default function App() {
           </section>
         )}
 
-        {/* QTY WITHOUT IMAGE */}
+        {/* ------------------ QTY NO IMAGE ------------------ */}
         {current.kind === "qtyNoImage" && (
           <section className="step card no-image">
             <h2 className="lux-h2">{current.title}</h2>
@@ -435,7 +431,7 @@ export default function App() {
           </section>
         )}
 
-        {/* FIXED ADD-ON TOGGLE */}
+        {/* ------------------ FIXED ADDON ------------------ */}
         {current.kind === "fixedNoImage" && (
           <section className="step card no-image">
             <h2 className="lux-h2">{current.title}</h2>
@@ -465,7 +461,7 @@ export default function App() {
           </section>
         )}
 
-        {/* SUMMARY */}
+        {/* ------------------ SUMMARY ------------------ */}
         {current.kind === "summary" && (
           <section className="summary card">
             <h2 className="lux-h2">Your Quote Summary</h2>
@@ -480,8 +476,6 @@ export default function App() {
               ))}
             </ul>
 
-
-
             <div className="nav-row">
               <button className="fancy-btn reverse" onClick={back}>
                 ← Back
@@ -493,7 +487,7 @@ export default function App() {
           </section>
         )}
 
-        {/* CONTACT */}
+        {/* ------------------ CONTACT ------------------ */}
         {current.kind === "contact" && !submitted && (
           <section className="contact-section">
             <h2 className="lux-title">{current.title}</h2>
@@ -527,7 +521,7 @@ export default function App() {
           </section>
         )}
 
-        {/* THANK YOU */}
+        {/* ------------------ THANK YOU ------------------ */}
         {submitted && (
           <section className="thankyou fade-in">
             <h2 className="lux-h2">Thank You!</h2>

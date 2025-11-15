@@ -318,7 +318,6 @@ body {
 }
 
 .intro-images.double img {
-  width:60%;
   height:400px;
   object-fit: fill;
   border: 1px solid rgba(0, 0, 0, 0.05);
@@ -516,7 +515,6 @@ body {
   }
 
   .intro-images.double img {
-    width: 90%;
     flex: 0 0 auto;
     height: auto;
     aspect-ratio: 4 / 3;
@@ -575,6 +573,7 @@ body {
   background: #fff;
   cursor: pointer;
   transition: all 0.3s ease;
+  padding: 0%;
 }
 
 .style-option img {
@@ -588,7 +587,7 @@ body {
 .style-option div {
   font-size: 15px;
   font-weight: 500;
-  padding: 14px 0;
+  padding: 0 0 10px 0;
   color: #111;
   background: #fafafa;
 }
@@ -620,3 +619,24 @@ body {
     height: 240px;
   }
 }
+
+.lazy-wrapper {
+  position: relative;
+  overflow: hidden;
+  padding: 0px;
+}
+
+.lazy-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: filter 0.6s ease, opacity 0.6s ease;
+  filter: blur(15px);
+  opacity: 0.5;
+}
+
+.lazy-img.loaded {
+  filter: blur(0px);
+  opacity: 1;
+}
+
