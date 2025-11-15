@@ -105,14 +105,14 @@ const STEPS = [
     id: "entryway",
     kind: "fixedNoImage",
     title: "Entryway Package (Add-on)",
-    question: "Mirror + Console + Accessories/Lamp — $600 total",
+    question: "Include entryway area setup?",
     priceKey: "entryway",
   },
   {
     id: "office",
     kind: "fixedNoImage",
     title: "Office / Den Package (Add-on)",
-    question: "Desk, chair and accessories — $1,000",
+    question: "Include office area setup?",
     priceKey: "office",
   },
 
@@ -480,9 +480,7 @@ export default function App() {
               ))}
             </ul>
 
-            <p className="summary-total">
-              Estimated Total: ${total.toLocaleString()}
-            </p>
+
 
             <div className="nav-row">
               <button className="fancy-btn reverse" onClick={back}>
